@@ -8,11 +8,11 @@ import (
 
 func Guess(w http.ResponseWriter, r *http.Request) {
 
-	fmt.Fprint(w, "Guessing game! asuhh")
+	fmt.Fprint(w, "<h1>Guessing game</h1>")
 }
 
 func main() {
-	//open localhost on port 8080
+	//localhost:8080
 	http.HandleFunc("/", Guess)	
 	http.ListenAndServe(":8080", nil)
 }

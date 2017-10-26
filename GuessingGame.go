@@ -2,13 +2,14 @@
 package main
 
 import (
-	"fmt"	
+//	"fmt"	
 	"net/http"
 )
 
 func Guess(w http.ResponseWriter, r *http.Request) {
 
-	fmt.Fprint(w, "<h1>Guessing game</h1>")
+	//fmt.Fprint(w, "<h1>Guessing game</h1>")
+	http.ServeFile(w,r,"index.html")
 }
 
 func main() {

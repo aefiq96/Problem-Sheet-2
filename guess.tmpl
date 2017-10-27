@@ -13,6 +13,7 @@
   <body>
     <!-- form -->
     <h2>{{.Message}}</h2>
+     <p>You have guessed {{.Guess}}</p>
     <form class="form-inline" method= "GET" action="/guess">
     <div class="form-group">
         <input type="number" class="form-control" placeholder="1 to 20" name="guess">

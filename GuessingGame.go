@@ -6,23 +6,62 @@ import (
 //	"fmt"	
 	"net/http"
 	"html/template"
+	"math/rand"
+	"time"
+	"strconv"
 )
 type message struct{
 	Message string
+	Guess int
+
 }
 func Guess(w http.ResponseWriter, r *http.Request) {
 
 	//fmt.Fprint(w, "<h1>Guessing game</h1>")
 	http.ServeFile(w,r,"index.html")
 }
+//this generates random number between given range
+func xrand(min, max int) int {
+    rand.Seed(time.Now().Unix())
+    return rand.Intn(max - min) + min
+}
 
 func GuessRoute(w http.ResponseWriter, r *http.Request) {
 
 	//fmt.Fprint(w, "<h1>Guessing game</h1>")
+	//cookies
+	rand := xrand(1,20)
+
+	cookie, err := r.Cookie("target");
+	if err != nil {
+	// Create a cookie instance and set the cookie.
+	// You can delete the Expires line (and the time import) to make a session cookie.
+		cookie = &http.Cookie{
+		Name:    "target",
+		Value:   strconv.Itoa(rand),
+		Expires: time.Now().Add(72 * time.Hour),
+	}
+		http.SetCookie(w, cookie)
+	}
+
+	// If we could read it, try to convert its value to an int.
+	guessTarget, _ := strconv.Atoi(r.FormValue("guess"))
+
 	//create a string 
 	str := "Guess a number between 1 and 20"
 	//pass it to a struct 
-	m := &message{Message: str}
+	m := &message{Message: str, Guess: guessTarget}
+
+
+	CookieVal, _ := strconv.Atoi(cookie.Value)
+
+
+	if CookieVal == guessTarget{
+
+
+	}
+
+	
 	//parse a file
 	tem, _ := template.ParseFiles("guess.tmpl")
 	tem.Execute(w,m)
@@ -35,3 +74,4 @@ func main() {
 	http.HandleFunc("/guess", GuessRoute)
 	http.ListenAndServe(":8080", nil)
 }
+

@@ -57,19 +57,25 @@ func GuessRoute(w http.ResponseWriter, r *http.Request) {
 
 	CookieVal, _ := strconv.Atoi(cookie.Value)
 
-
+    //check if the guess and cookie equals
 	if CookieVal == guessTarget{
 
      m.MessageTwo = "You won!!"
      m.WinOrNot = true
-
+     //new random number
+	 cookie = &http.Cookie{
+		Name:    "target",
+		Value:   strconv.Itoa(rand),
+		Expires: time.Now().Add(72 * time.Hour),
+	}
+		http.SetCookie(w, cookie)
+    //for too low
 	}else if guessTarget < CookieVal{
- 
       m.MessageTwo = "Guess Too Low"
+	  //for too high
 	}else if guessTarget > CookieVal{
 		 m.MessageTwo = "Guess Too High"
 	}
-	
 	//parse a file
 	tem, _ := template.ParseFiles("guess.tmpl")
 	tem.Execute(w,m)

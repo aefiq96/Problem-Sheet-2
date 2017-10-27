@@ -15,7 +15,7 @@
     <h2>{{.Message}}</h2>
     {{if .Guess}} <p>You guessed {{.Guess}}</p>
     {{.MessageTwo}} {{end}}
-    <form class="form-inline" method= "GET" action="/guess">
+    <form class="form-inline" method= "POST" action="/guess">
     <div class="form-group">
         <input type="number" class="form-control" placeholder="1 to 20" name="guess">
         <button type="submit" class="btn">guess</button>

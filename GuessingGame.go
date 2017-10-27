@@ -13,6 +13,8 @@ import (
 type message struct{
 	Message string
 	Guess int
+	WinOrNot bool
+	MessageTwo string
 
 }
 func Guess(w http.ResponseWriter, r *http.Request) {
@@ -50,7 +52,7 @@ func GuessRoute(w http.ResponseWriter, r *http.Request) {
 	//create a string 
 	str := "Guess a number between 1 and 20"
 	//pass it to a struct 
-	m := &message{Message: str, Guess: guessTarget}
+	m := &message{Message: str, Guess: guessTarget, WinOrNot: false}
 
 
 	CookieVal, _ := strconv.Atoi(cookie.Value)
@@ -58,9 +60,15 @@ func GuessRoute(w http.ResponseWriter, r *http.Request) {
 
 	if CookieVal == guessTarget{
 
+     m.MessageTwo = "You won!!"
+     m.WinOrNot = true
 
+	}else if guessTarget < CookieVal{
+ 
+      m.MessageTwo = "Guess Too Low"
+	}else if guessTarget > CookieVal{
+		 m.MessageTwo = "Guess Too High"
 	}
-
 	
 	//parse a file
 	tem, _ := template.ParseFiles("guess.tmpl")

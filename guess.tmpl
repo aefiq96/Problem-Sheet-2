@@ -13,13 +13,17 @@
   <body>
     <!-- form -->
     <h2>{{.Message}}</h2>
-     <p>You have guessed {{.Guess}}</p>
+    {{if .Guess}} <p>You guessed {{.Guess}}</p>
+    {{.MessageTwo}} {{end}}
     <form class="form-inline" method= "GET" action="/guess">
     <div class="form-group">
         <input type="number" class="form-control" placeholder="1 to 20" name="guess">
         <button type="submit" class="btn">guess</button>
     </div>  
 </form>
+   <!--- this only displays when user wins -->
+    {{if .WinOrNot}}
+    <a href="/guess">New Game</a>{{end}}
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
